@@ -17,14 +17,19 @@ import java.util.List;
 public interface RecordDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Record record);
+
     @Query("SELECT * FROM RECORD")
     LiveData<List<Record>> getAll();
+
     @Query("SELECT * FROM Record WHERE recordId=:recordId")
     LiveData<Record> findById(long recordId);
+
     @Query("SELECT * FROM Record ORDER BY catId, duration DESC")
     LiveData<List<Record>> getAllSortByCat();
+
     @Delete
     void delete(Record record);
+
     @Update
     void update(Record record);
 }
