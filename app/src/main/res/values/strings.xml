@@ -1,0 +1,17 @@
+<resources>
+    <string name="app_name">AndroidTodo</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="nav_header_title">To do list</string>
+    <string name="nav_header_desc">Navigation header</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_main2">Main2Activity</string>
+    <string name="title_activity_statistic">StatisticActivity</string>
+    <string name="most_often">Often</string>
+    <string name="most_sum">Most Sum</string>
+    <string name="sum">Sum</string>
+    <string name="pie">Pie</string>
+
+    <string name="section_format">Hello World from section: %1$d</string>
+</resources>
