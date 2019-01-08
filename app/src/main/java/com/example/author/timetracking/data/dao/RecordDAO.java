@@ -8,7 +8,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-
 import com.example.author.timetracking.data.entity.Record;
 
 import java.util.List;
@@ -17,6 +16,12 @@ import java.util.List;
 public interface RecordDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     long insert(Record record);
+
+    @Delete
+    void delete(Record record);
+
+    @Update
+    void update(Record record);
 
     @Query("SELECT * FROM RECORD")
     LiveData<List<Record>> getAll();
@@ -27,9 +32,4 @@ public interface RecordDAO {
     @Query("SELECT * FROM Record ORDER BY catId, duration DESC")
     LiveData<List<Record>> getAllSortByCat();
 
-    @Delete
-    void delete(Record record);
-
-    @Update
-    void update(Record record);
 }

@@ -8,7 +8,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-
 import com.example.author.timetracking.data.entity.Photo;
 
 import java.util.List;
@@ -21,12 +20,13 @@ public interface PhotoDAO {
     @Update(onConflict = OnConflictStrategy.IGNORE)
     int update(Photo... photos);
 
+    @Delete
+    void delete(Photo photo);
+
     @Query("SELECT * FROM Photo WHERE phId=:phId LIMIT 1")
     Photo findById(long phId);
 
     @Query("SELECT * FROM Photo WHERE recordId=:recordId")
     LiveData<List<Photo>> findByRecordId(long recordId);
 
-    @Delete
-    void delete(Photo photo);
 }

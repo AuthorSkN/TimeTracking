@@ -8,7 +8,6 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
-
 import com.example.author.timetracking.data.entity.Category;
 
 import java.util.Date;
@@ -18,6 +17,12 @@ import java.util.List;
 public interface CategoryDAO {
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(Category... category);
+
+    @Update
+    void update(Category category);
+
+    @Delete
+    void delete(Category category);
 
     @Query("SELECT * FROM Category")
     LiveData<List<Category>> getAll();
@@ -37,9 +42,4 @@ public interface CategoryDAO {
     @Query("select sum(duration) as sum,categoryId, phid, category.title from category join record on categoryid = catId and startTime >= :start and endTime <=:end group by catId, phid")
     List<Category> getSum(Date start, Date end);
 
-    @Update
-    void update(Category category);
-
-    @Delete
-    void delete(Category category);
 }

@@ -17,19 +17,19 @@ import com.example.author.timetracking.data.entity.*;
 import java.util.concurrent.Executors;
 
 
-@Database(entities = {Photo.class, Category.class, Record.class},
-        version = 1)
+@Database(entities = {Photo.class, Category.class, Record.class}, version = 1)
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
-    private static AppDatabase INSTANCE;
-    private final MutableLiveData<Boolean> isDatabaseCreated = new MutableLiveData<>();
+
+    private static AppDatabase instance;
+    private final MutableLiveData<Boolean> isCreated = new MutableLiveData<>();
 
 
     public synchronized static AppDatabase getInstance(Context context) {
-        if (INSTANCE == null) {
-            INSTANCE = buildDatabase(context);
+        if (instance == null) {
+            instance = buildDatabase(context);
         }
-        return INSTANCE;
+        return instance;
     }
 
     public abstract CategoryDAO getCategoryDAO();
@@ -47,33 +47,19 @@ public abstract class AppDatabase extends RoomDatabase {
                     @Override
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
+
                         Executors.newSingleThreadExecutor().execute(new Runnable() {
                             @Override
                             public void run() {
-                                long[] ids = getInstance(context).getPhotoDAO().insert(getCategoriesPhotos());
-                                getInstance(context).getCategoryDAO().insert(getInitCategories(ids));
+                                Photo[] startPhotos = getStartPhotos();
+                                long[] photoIds = getInstance(context).getPhotoDAO().insert(startPhotos);
+
+                                Category[] startCategories = getStartCategories(photoIds);
+                                getInstance(context).getCategoryDAO().insert(startCategories);
+
                                 getInstance(context).setDatabaseCreated();
                             }
 
-                            private Category[] getInitCategories(long[] phIds) {
-                                return new Category[]{
-                                        new Category("Cleaning", phIds[0]),
-                                        new Category("Dinner", phIds[1]),
-                                        new Category("Dream", phIds[2]),
-                                        new Category("Rest", phIds[3]),
-                                        new Category("Work", phIds[4]),
-                                };
-                            }
-
-                            private Photo[] getCategoriesPhotos() {
-                                return new Photo[]{
-                                        new Photo("android.resource://com.todo.androidtodo/" + R.mipmap.clean_category),
-                                        new Photo("android.resource://com.todo.androidtodo/" + R.mipmap.dinner_category),
-                                        new Photo("android.resource://com.todo.androidtodo/" + R.mipmap.dream_category),
-                                        new Photo("android.resource://com.todo.androidtodo/" + R.mipmap.rest_category),
-                                        new Photo("android.resource://com.todo.androidtodo/" + R.mipmap.work_category)
-                                };
-                            }
                         });
                     }
                 })
@@ -81,11 +67,31 @@ public abstract class AppDatabase extends RoomDatabase {
     }
 
     public LiveData<Boolean> getDatabaseCreated() {
-        return isDatabaseCreated;
+        return isCreated;
     }
 
     private void setDatabaseCreated() {
-        isDatabaseCreated.postValue(true);
+        isCreated.postValue(true);
+    }
+
+    private static Category[] getStartCategories(long[] photoIds) {
+        return new Category[]{
+                new Category("Cleaning", photoIds[0]),
+                new Category("Dinner", photoIds[1]),
+                new Category("Dream", photoIds[2]),
+                new Category("Rest", photoIds[3]),
+                new Category("Work", photoIds[4]),
+        };
+    }
+
+    private static Photo[] getStartPhotos() {
+        return new Photo[]{
+                new Photo("android.resource://com.example.author.timetracking//" + R.mipmap.clean_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.dinner_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.dream_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.rest_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.work_category)
+        };
     }
 
 
