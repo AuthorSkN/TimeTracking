@@ -24,7 +24,8 @@ public class StartActivity extends AppCompatActivity
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(getApplicationContext(), com.example.author.timetracking.RecordActivity.class);
+                startActivity(intent);
             }
         });
 
