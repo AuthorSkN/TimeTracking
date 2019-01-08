@@ -72,9 +72,9 @@ public class CategoryActivity extends AppCompatActivity {
         image.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                /*Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
                 intent.putExtra(CURRENT_PHOTO, photo);
-                startActivityForResult(intent, 1);*/
+                startActivityForResult(intent, 1);
                 return true;
             }
         });

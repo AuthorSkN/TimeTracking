@@ -1,7 +1,10 @@
 package com.example.author.timetracking.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,6 +14,10 @@ import android.view.ViewGroup;
 
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Record;
+import com.example.author.timetracking.data.viewmodel.RecordsListViewModel;
+import com.example.author.timetracking.rvadapter.MyRecordsRecyclerViewAdapter;
+
+import java.util.List;
 
 public class RecordsFragment extends Fragment {
 
@@ -34,7 +41,7 @@ public class RecordsFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            /*final RecordsListViewModel viewModel =
+            final RecordsListViewModel viewModel =
                     ViewModelProviders.of(this).get(RecordsListViewModel.class);
             viewModel.getRecords().observe(this, new Observer<List<Record>>() {
                 @Override
@@ -42,7 +49,7 @@ public class RecordsFragment extends Fragment {
                     recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), RecordsFragment.this));
 
                 }
-            });*/
+            });
         }
         return view;
     }

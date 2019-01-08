@@ -185,9 +185,9 @@ public class RecordActivity  extends AppCompatActivity {
                     imageView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            /*Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
                             intent.putExtra(CURRENT_PHOTO, photo);
-                            startActivityForResult(intent, 1);*/
+                            startActivityForResult(intent, 1);
                         }
                     });
                     imageLayout.addView(imageView);
@@ -234,9 +234,9 @@ public class RecordActivity  extends AppCompatActivity {
                         imageView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                /*Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                                Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
                                 intent.putExtra(CURRENT_PHOTO, photo);
-                                startActivityForResult(intent, 1);*/
+                                startActivityForResult(intent, 1);
                             }
                         });
                         imageView.setImageBitmap(selectedImage);
