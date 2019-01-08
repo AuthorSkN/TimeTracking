@@ -35,11 +35,11 @@ public class RecordsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_records_list, container, false);
 
-        /*if (view instanceof RecyclerView) {
+        if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            final RecordsListViewModel viewModel =
+            /*final RecordsListViewModel viewModel =
                     ViewModelProviders.of(this).get(RecordsListViewModel.class);
             viewModel.getRecords().observe(this, new Observer<List<Record>>() {
                 @Override
@@ -47,8 +47,8 @@ public class RecordsFragment extends Fragment {
                     recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), RecordsFragment.this));
 
                 }
-            });
-        }*/
+            });*/
+        }
         return view;
     }
 

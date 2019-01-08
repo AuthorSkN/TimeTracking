@@ -12,8 +12,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.example.author.timetracking.data.entity.Record;
+import com.example.author.timetracking.fragments.RecordsFragment;
+
 public class StartActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener,
+        RecordsFragment.OnRecordsListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,5 +65,10 @@ public class StartActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void OnRecordsListFragmentInteractionListener(Record item) {
+
     }
 }
