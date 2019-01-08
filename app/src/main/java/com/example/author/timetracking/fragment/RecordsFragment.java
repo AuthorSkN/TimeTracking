@@ -1,10 +1,7 @@
-package com.example.author.timetracking.fragments;
+package com.example.author.timetracking.fragment;
 
-import android.arch.lifecycle.Observer;
-import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -14,8 +11,6 @@ import android.view.ViewGroup;
 
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Record;
-
-import java.util.List;
 
 public class RecordsFragment extends Fragment {
 
@@ -71,6 +66,8 @@ public class RecordsFragment extends Fragment {
     }
 
     public interface OnRecordsListFragmentInteractionListener {
+
         void OnRecordsListFragmentInteractionListener(Record item);
+
     }
 }

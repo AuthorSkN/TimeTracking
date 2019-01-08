@@ -8,12 +8,10 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.example.author.timetracking.data.entity.Record;
-import com.example.author.timetracking.fragments.RecordsFragment;
+import com.example.author.timetracking.fragment.RecordsFragment;
 
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -24,22 +22,19 @@ public class StartActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), com.example.author.timetracking.RecordActivity.class);
-                startActivity(intent);
-            }
+        FloatingActionButton addRecordButton = findViewById(R.id.fab);
+        addRecordButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getApplicationContext(), RecordActivity.class);
+            startActivity(intent);
         });
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        NavigationView menuView = findViewById(R.id.menu_view);
+        menuView.setNavigationItemSelectedListener(this);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -52,20 +47,20 @@ public class StartActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         int id = menuItem.getItemId();
 
-        if (id == R.id.nav_records) {
+        if (id == R.id.to_records) {
             Intent intent = new Intent(getApplicationContext(), StartActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_categories) {
+        } else if (id == R.id.to_categories) {
             Intent intent = new Intent(getApplicationContext(), com.example.author.timetracking.CategoriesActivity.class);
             startActivity(intent);
 
-        } else if (id == R.id.nav_statistic) {
+        } else if (id == R.id.to_statistic) {
             Intent intent = new Intent(getApplicationContext(), com.example.author.timetracking.StatisticActivity.class);
             startActivity(intent);
         }
 
-        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }

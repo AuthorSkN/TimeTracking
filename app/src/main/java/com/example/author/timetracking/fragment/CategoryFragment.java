@@ -1,4 +1,4 @@
-package com.example.author.timetracking.fragments;
+package com.example.author.timetracking.fragment;
 
 import android.content.Context;
 import android.os.Bundle;

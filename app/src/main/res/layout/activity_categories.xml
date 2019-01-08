@@ -18,7 +18,7 @@
 
         <fragment
             android:id="@+id/records_id"
-            android:name="com.example.author.timetracking.fragments.CategoryFragment"
+            android:name="com.example.author.timetracking.fragment.CategoryFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:layout="@layout/fragment_category_list" />

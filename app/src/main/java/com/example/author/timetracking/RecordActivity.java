@@ -1,6 +1,5 @@
 package com.example.author.timetracking;
 
-import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -27,6 +26,7 @@ import com.example.author.timetracking.data.DataRepository;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Photo;
 import com.example.author.timetracking.data.entity.Record;
+import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
 import com.google.android.flexbox.FlexboxLayout;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
@@ -69,7 +69,7 @@ public class RecordActivity  extends AppCompatActivity {
     private ArrayList<Photo> addedPhotos;
     private ArrayList<Photo> recentlyAddedPhotos = new ArrayList<>();
 
-    private SimpleDateFormat myDateFormat;
+    private SimpleDateFormat dateFormat;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,22 +77,18 @@ public class RecordActivity  extends AppCompatActivity {
         appDatabase = AppDatabase.getInstance(this);
         repository = ((BasicApp) getApplication()).getRepository();
         setContentView(R.layout.activity_record);
-        spinner = findViewById(R.id.spinner);
-        /*final CategoryListViewModel viewModel =
-                ViewModelProviders.of(this).get(CategoryListViewModel.class);
+        spinner = findViewById(R.id.cats_spinner);
+        final CategoryListViewModel categoriesViewModel = ViewModelProviders.of(this)
+                .get(CategoryListViewModel.class);
         allCategories = new ArrayList<>();
-        viewModel.getCategories().observe(this, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(@Nullable List<Category> categories) {
-                if (categories == null) {
-                    allCategories = new ArrayList<>();
-                } else {
-                    allCategories = categories;
-                    changeSpinnerItems();
-                }
+        categoriesViewModel.getCategories().observe(this, categories -> {
+            if (categories == null) {
+                allCategories = new ArrayList<>();
+            } else {
+                allCategories = categories;
+                changeSpinnerItems();
             }
         });
-        */
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -108,26 +104,18 @@ public class RecordActivity  extends AppCompatActivity {
         imageLayout = findViewById(R.id.imagesLayout);
         addedPhotos = new ArrayList<>();
         addImageButton = findViewById(R.id.addImage);
-        addImageButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-            }
+        addImageButton.setOnClickListener(v -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
         });
 
-        myDateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", java.util.Locale.getDefault());
-        startDateView = findViewById(R.id.startDateView);
-        endDateView = findViewById(R.id.endDateView);
+        dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", java.util.Locale.getDefault());
+        startDateView = findViewById(R.id.view_stdate);
+        endDateView = findViewById(R.id.view_edate);
 
         saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                saveRecord();
-            }
-        });
+        saveButton.setOnClickListener(event -> saveRecord());
 
         configureDateTimeFragments();
 
@@ -147,7 +135,7 @@ public class RecordActivity  extends AppCompatActivity {
         record.setCatId(choosenCategory.getCategoryId());
         record.setEndTime(end);
         record.setStartTime(start);
-        EditText title = findViewById(R.id.editTitle);
+        EditText title = findViewById(R.id.edit_title);
         record.setTitle(title.getText().toString());
         long recId = appDatabase.getRecordDAO().insert(record);
         Photo[] photosToUpdate = new Photo[recentlyAddedPhotos.size()];
@@ -226,61 +214,53 @@ public class RecordActivity  extends AppCompatActivity {
 
     private void updateView() {
         if (record.getStartTime() != null) {
-            startDateView.setText(myDateFormat.format(record.getStartTime().toString()));
+            startDateView.setText(dateFormat.format(record.getStartTime().toString()));
         }
         if (record.getEndTime() != null) {
-            endDateView.setText(myDateFormat.format(record.getEndTime().toString()));
+            endDateView.setText(dateFormat.format(record.getEndTime().toString()));
         }
-        ((EditText) findViewById(R.id.editTitle)).setText(record.getTitle());
-        repository.getPhotosByRecord(record.getRecordId()).observe(this, new Observer<List<Photo>>() {
-            @Override
-            public void onChanged(@Nullable List<Photo> photos) {
-                if (photos != null) {
-                    try {
-                        for (Photo photo : photos) {
-                            addedPhotos.add(photo);
-                            recentlyAddedPhotos.add(photo);
-                            final Uri imageUri = Uri.parse(photo.getImageUri());
-                            final InputStream imageStream = getContentResolver().openInputStream(imageUri);
-                            final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                            ImageView imageView = new ImageView(getApplicationContext());
-                            imageView.setOnClickListener(new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    /*Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
-                                    intent.putExtra(CURRENT_PHOTO, photo);
-                                    startActivityForResult(intent, 1);*/
-                                }
-                            });
-                            imageView.setImageBitmap(selectedImage);
-                            imageView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
-                            imageLayout.addView(imageView);
-                        }
-                    } catch (FileNotFoundException e) {
-                        Toast.makeText(getApplicationContext(), "Something went wrong", Toast.LENGTH_LONG).show();
+        ((EditText) findViewById(R.id.edit_title)).setText(record.getTitle());
+        repository.getPhotosByRecord(record.getRecordId())
+                .observe(this, photos -> {
+            if (photos != null) {
+                try {
+                    for (Photo photo : photos) {
+                        addedPhotos.add(photo);
+                        recentlyAddedPhotos.add(photo);
+                        final Uri imageUri = Uri.parse(photo.getImageUri());
+                        final InputStream imageStream = getContentResolver().openInputStream(imageUri);
+                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                        ImageView imageView = new ImageView(getApplicationContext());
+                        imageView.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                /*Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                                intent.putExtra(CURRENT_PHOTO, photo);
+                                startActivityForResult(intent, 1);*/
+                            }
+                        });
+                        imageView.setImageBitmap(selectedImage);
+                        imageView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
+                        imageLayout.addView(imageView);
                     }
+                } catch (FileNotFoundException e) {
+                    Toast.makeText(getApplicationContext(), "Error on record photos showing", Toast.LENGTH_LONG).show();
                 }
             }
         });
     }
 
     private void configureDateTimeFragments() {
-        startDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentStart.startAtCalendarView();
-                dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentStart.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_START);
-            }
+        startDateView.setOnClickListener(v -> {
+            dateTimeFragmentStart.startAtCalendarView();
+            dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentStart.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_START);
         });
 
-        endDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentEnd.startAtCalendarView();
-                dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentEnd.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_END);
-            }
+        endDateView.setOnClickListener(v -> {
+            dateTimeFragmentEnd.startAtCalendarView();
+            dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentEnd.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_END);
         });
 
         dateTimeFragmentStart = (SwitchDateTimeDialogFragment) getSupportFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT_START);
@@ -304,7 +284,7 @@ public class RecordActivity  extends AppCompatActivity {
         dateTimeFragmentStart.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                startDateView.setText(myDateFormat.format(date));
+                startDateView.setText(dateFormat.format(date));
                 start = date;
             }
 
@@ -339,7 +319,7 @@ public class RecordActivity  extends AppCompatActivity {
         dateTimeFragmentEnd.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                endDateView.setText(myDateFormat.format(date));
+                endDateView.setText(dateFormat.format(date));
                 end = date;
             }
 

@@ -4,7 +4,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.author.timetracking.data.entity.Category;
-import com.example.author.timetracking.fragments.CategoryFragment;
+import com.example.author.timetracking.fragment.CategoryFragment;
 
 
 public class CategoriesActivity extends AppCompatActivity
