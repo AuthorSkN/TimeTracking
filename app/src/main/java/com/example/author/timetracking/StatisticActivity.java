@@ -36,10 +36,10 @@ public class StatisticActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         TabsFragmentAdapter adapter = new TabsFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new OftenListFragment(), getString(R.string.most_often));
-        adapter.addFragment(new SumDurationListFragment(), getString(R.string.most_sum));
+        adapter.addFragment(new OftenListFragment(), getString(R.string.often));
+        adapter.addFragment(new SumDurationListFragment(), getString(R.string.sum_in_all));
         adapter.addFragment(new SumDurationBySelectCatsListFragment(), getString(R.string.sum));
-        adapter.addFragment(new DiagramFragment(), getString(R.string.pie));
+        adapter.addFragment(new DiagramFragment(), getString(R.string.diagram));
         viewPager.setAdapter(adapter);
     }
 

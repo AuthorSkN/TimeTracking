@@ -55,7 +55,7 @@ public class SumDurationListFragment extends Fragment {
         endDateView = view.findViewById(R.id.endDateView);
         configureDateTimeFragments();
         Context context = view.getContext();
-        recyclerView =  view.findViewById(R.id.most_sum_list);
+        recyclerView =  view.findViewById(R.id.sum_in_all_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         viewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
         view.findViewById(R.id.search_button).setOnClickListener(event -> new Find().doInBackground(start, end));
