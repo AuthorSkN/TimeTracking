@@ -1,14 +1,23 @@
 package com.example.author.timetracking.fragment;
 
+import android.arch.lifecycle.Observer;
+import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Category;
+import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
+import com.example.author.timetracking.rvadapter.MyCategoriesRecyclerViewAdapter;
+
+import java.util.List;
 
 
 public class CategoryFragment extends Fragment {
@@ -32,6 +41,22 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_list, container, false);
+
+        // Set the adapter
+        if (view instanceof RecyclerView) {
+            Context context = view.getContext();
+            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView.setLayoutManager(new LinearLayoutManager(context));
+            final CategoryListViewModel viewModel =
+                    ViewModelProviders.of(this).get(CategoryListViewModel.class);
+            viewModel.getCategories().observe(this, new Observer<List<Category>>() {
+                @Override
+                public void onChanged(@Nullable List<Category> categories) {
+                    recyclerView.setAdapter(new MyCategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
+
+                }
+            });
+        }
 
 
         return view;
