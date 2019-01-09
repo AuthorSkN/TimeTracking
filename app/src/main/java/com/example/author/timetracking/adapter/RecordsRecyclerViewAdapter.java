@@ -27,25 +27,26 @@ import com.example.author.timetracking.data.dao.RecordDAO;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Photo;
 import com.example.author.timetracking.data.entity.Record;
-import com.example.author.timetracking.fragment.RecordsFragment;
+import com.example.author.timetracking.fragment.RecordsListFragment;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyRecordsRecyclerViewAdapter extends RecyclerView.Adapter<MyRecordsRecyclerViewAdapter.ViewHolder> {
+public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecyclerViewAdapter.ViewHolder> {
+    
     public static final String RECORD_MODEL = "record-model";
 
     private List<Record> mValues;
-    private final RecordsFragment.OnRecordsListFragmentInteractionListener mListener;
+    private final RecordsListFragment.OnRecordsListFragmentInteractionListener mListener;
     private final CategoryDAO categoryDAO;
     private final PhotoDAO photoDAO;
     private final RecordDAO recordDAO;
     private Fragment owner;
     private Category recordCategory;
 
-    public MyRecordsRecyclerViewAdapter(List<Record> records, RecordsFragment.OnRecordsListFragmentInteractionListener listener, Context context, Fragment owner) {
+    public RecordsRecyclerViewAdapter(List<Record> records, RecordsListFragment.OnRecordsListFragmentInteractionListener listener, Context context, Fragment owner) {
         this.owner = owner;
         if (records == null) {
             mValues = new ArrayList<>();
@@ -102,7 +103,7 @@ public class MyRecordsRecyclerViewAdapter extends RecyclerView.Adapter<MyRecords
                 }
             }
         });
-        if (owner instanceof RecordsFragment) {
+        if (owner instanceof RecordsListFragment) {
             holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {

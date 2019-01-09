@@ -15,16 +15,16 @@ import android.view.ViewGroup;
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Record;
 import com.example.author.timetracking.data.viewmodel.RecordsListViewModel;
-import com.example.author.timetracking.adapter.MyRecordsRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.RecordsRecyclerViewAdapter;
 
 import java.util.List;
 
-public class RecordsFragment extends Fragment {
+public class RecordsListFragment extends Fragment {
 
     private OnRecordsListFragmentInteractionListener mListener;
 
 
-    public RecordsFragment() {
+    public RecordsListFragment() {
     }
 
     @Override
@@ -46,7 +46,7 @@ public class RecordsFragment extends Fragment {
             viewModel.getRecords().observe(this, new Observer<List<Record>>() {
                 @Override
                 public void onChanged(@Nullable List<Record> records) {
-                    recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), RecordsFragment.this));
+                    recyclerView.setAdapter(new RecordsRecyclerViewAdapter(records, mListener, getContext(), RecordsListFragment.this));
 
                 }
             });

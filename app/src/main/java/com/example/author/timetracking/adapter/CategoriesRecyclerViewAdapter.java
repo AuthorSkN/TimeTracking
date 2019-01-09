@@ -27,7 +27,7 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MyCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<MyCategoriesRecyclerViewAdapter.ViewHolder>{
+public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder>{
     public static final String CATEGORY_MODEL = "currentCategory";
 
     private List<Category> mValues;
@@ -35,7 +35,7 @@ public class MyCategoriesRecyclerViewAdapter extends RecyclerView.Adapter<MyCate
     private final PhotoDAO photoDAO;
     private Fragment owner;
 
-    public MyCategoriesRecyclerViewAdapter(List<Category> categories, CategoryFragment.OnCategoriesFragmentInteractionListener listener, Context context, Fragment owner) {
+    public CategoriesRecyclerViewAdapter(List<Category> categories, CategoryFragment.OnCategoriesFragmentInteractionListener listener, Context context, Fragment owner) {
         this.owner = owner;
         if (categories == null) {
             mValues = new ArrayList<>();

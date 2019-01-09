@@ -7,7 +7,7 @@ import android.arch.lifecycle.MediatorLiveData;
 import android.arch.lifecycle.Observer;
 import android.support.annotation.Nullable;
 
-import com.example.author.timetracking.BasicApp;
+import com.example.author.timetracking.TrackingApplication;
 import com.example.author.timetracking.data.DataRepository;
 import com.example.author.timetracking.data.entity.Category;
 
@@ -24,7 +24,7 @@ public class CategoryListViewModel extends AndroidViewModel {
 
         observableCategories = new MediatorLiveData<>();
         observableCategories.setValue(null);
-        repository = ((BasicApp) application).getRepository();
+        repository = ((TrackingApplication) application).getRepository();
         LiveData<List<Category>> records = repository.getCategories();
         observableCategories.addSource(records, new Observer<List<Category>>() {
             @Override

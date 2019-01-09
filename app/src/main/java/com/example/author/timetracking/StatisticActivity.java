@@ -9,7 +9,7 @@ import com.example.author.timetracking.adapter.TabsFragmentAdapter;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Record;
 import com.example.author.timetracking.fragment.CategoryFragment;
-import com.example.author.timetracking.fragment.RecordsFragment;
+import com.example.author.timetracking.fragment.RecordsListFragment;
 import com.example.author.timetracking.fragment.statistic.MostOftenFragment;
 import com.example.author.timetracking.fragment.statistic.MostSumFragment;
 import com.example.author.timetracking.fragment.statistic.PieFragment;
@@ -17,7 +17,7 @@ import com.example.author.timetracking.fragment.statistic.SumByCatFragment;
 
 
 public class StatisticActivity extends AppCompatActivity
-        implements RecordsFragment.OnRecordsListFragmentInteractionListener,
+        implements RecordsListFragment.OnRecordsListFragmentInteractionListener,
         CategoryFragment.OnCategoriesFragmentInteractionListener{
 
     private ViewPager mViewPager;

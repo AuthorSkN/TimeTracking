@@ -75,7 +75,7 @@ public class RecordActivity  extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         appDatabase = AppDatabase.getInstance(this);
-        repository = ((BasicApp) getApplication()).getRepository();
+        repository = ((TrackingApplication) getApplication()).getRepository();
         setContentView(R.layout.activity_record);
         spinner = findViewById(R.id.cats_spinner);
         final CategoryListViewModel categoriesViewModel = ViewModelProviders.of(this)

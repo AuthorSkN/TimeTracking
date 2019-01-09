@@ -17,7 +17,7 @@ import android.widget.CheckBox;
 import android.widget.TextView;
 
 import com.example.author.timetracking.R;
-import com.example.author.timetracking.adapter.MyCategoriesRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.CategoriesRecyclerViewAdapter;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
 import com.example.author.timetracking.fragment.CategoryFragment;
@@ -203,7 +203,7 @@ public class SumByCatFragment extends Fragment {
                     catToShow.add(category);
                 }
             }
-            recyclerView.setAdapter(new MyCategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), SumByCatFragment.this));
+            recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), SumByCatFragment.this));
 
             return null;
         }

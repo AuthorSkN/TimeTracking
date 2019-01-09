@@ -3,7 +3,6 @@ package com.example.author.timetracking.fragment.statistic;
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -14,16 +13,16 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.author.timetracking.R;
-import com.example.author.timetracking.adapter.MyRecordsRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.RecordsRecyclerViewAdapter;
 import com.example.author.timetracking.data.entity.Record;
 import com.example.author.timetracking.data.viewmodel.RecordsListViewModel;
-import com.example.author.timetracking.fragment.RecordsFragment;
+import com.example.author.timetracking.fragment.RecordsListFragment;
 
 
 import java.util.List;
 
 public class MostOftenFragment extends Fragment {
-    private RecordsFragment.OnRecordsListFragmentInteractionListener mListener;
+    private RecordsListFragment.OnRecordsListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
 
     @Override
@@ -41,7 +40,7 @@ public class MostOftenFragment extends Fragment {
             viewModel.getRecords().observe(this, new Observer<List<Record>>() {
                 @Override
                 public void onChanged(@Nullable List<Record> records) {
-                    recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this));
+                    recyclerView.setAdapter(new RecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this));
 
                 }
             });
@@ -52,8 +51,8 @@ public class MostOftenFragment extends Fragment {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof RecordsFragment.OnRecordsListFragmentInteractionListener) {
-            mListener = (RecordsFragment.OnRecordsListFragmentInteractionListener) context;
+        if (context instanceof RecordsListFragment.OnRecordsListFragmentInteractionListener) {
+            mListener = (RecordsListFragment.OnRecordsListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnRecordsListFragmentInteractionListener");
@@ -69,7 +68,7 @@ public class MostOftenFragment extends Fragment {
 //    private class Find extends AsyncTask{
 //        @Override
 //        protected Object doInBackground(Object[] objects) {
-//            recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this))
+//            recyclerView.setAdapter(new RecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this))
 //        }
 //    }
 }

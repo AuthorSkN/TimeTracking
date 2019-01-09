@@ -10,7 +10,7 @@
 
     <fragment
         android:id="@+id/records_id"
-        android:name="com.example.author.timetracking.fragment.RecordsFragment"
+        android:name="com.example.author.timetracking.fragment.RecordsListFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:layout="@layout/fragment_records_list" />

@@ -11,11 +11,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.example.author.timetracking.data.entity.Record;
-import com.example.author.timetracking.fragment.RecordsFragment;
+import com.example.author.timetracking.fragment.RecordsListFragment;
 
 public class StartActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-        RecordsFragment.OnRecordsListFragmentInteractionListener {
+        RecordsListFragment.OnRecordsListFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +52,7 @@ public class StartActivity extends AppCompatActivity
             startActivity(intent);
 
         } else if (id == R.id.to_categories) {
-            Intent intent = new Intent(getApplicationContext(), com.example.author.timetracking.CategoriesActivity.class);
+            Intent intent = new Intent(getApplicationContext(), CategoriesListActivity.class);
             startActivity(intent);
 
         } else if (id == R.id.to_statistic) {

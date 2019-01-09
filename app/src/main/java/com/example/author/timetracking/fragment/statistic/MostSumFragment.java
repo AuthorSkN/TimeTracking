@@ -16,7 +16,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.author.timetracking.R;
-import com.example.author.timetracking.adapter.MyCategoriesRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.CategoriesRecyclerViewAdapter;
 import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
 import com.example.author.timetracking.fragment.CategoryFragment;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
@@ -175,9 +175,9 @@ public class MostSumFragment extends Fragment {
         @Override
         protected Void doInBackground(Date... objects) {
             if (objects[0] != null && objects[1] != null) {
-                recyclerView.setAdapter(new MyCategoriesRecyclerViewAdapter(viewModel.getMostSum(objects[0], objects[1]), mListener, getContext(), MostSumFragment.this));
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(objects[0], objects[1]), mListener, getContext(), MostSumFragment.this));
             } else {
-                recyclerView.setAdapter(new MyCategoriesRecyclerViewAdapter(viewModel.getMostSum(), mListener, getContext(), MostSumFragment.this));
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(), mListener, getContext(), MostSumFragment.this));
             }
             return null;
         }

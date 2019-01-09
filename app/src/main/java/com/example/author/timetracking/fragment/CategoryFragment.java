@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
-import com.example.author.timetracking.adapter.MyCategoriesRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.CategoriesRecyclerViewAdapter;
 
 import java.util.List;
 
@@ -42,7 +42,6 @@ public class CategoryFragment extends Fragment {
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_category_list, container, false);
 
-        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
@@ -52,7 +51,7 @@ public class CategoryFragment extends Fragment {
             viewModel.getCategories().observe(this, new Observer<List<Category>>() {
                 @Override
                 public void onChanged(@Nullable List<Category> categories) {
-                    recyclerView.setAdapter(new MyCategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
+                    recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
 
                 }
             });

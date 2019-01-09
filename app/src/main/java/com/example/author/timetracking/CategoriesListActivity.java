@@ -7,7 +7,7 @@ import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.fragment.CategoryFragment;
 
 
-public class CategoriesActivity extends AppCompatActivity
+public class CategoriesListActivity extends AppCompatActivity
         implements CategoryFragment.OnCategoriesFragmentInteractionListener {
 
     @Override
