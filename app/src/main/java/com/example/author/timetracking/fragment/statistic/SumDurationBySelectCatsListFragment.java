@@ -33,7 +33,7 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class DurationByCatFragment extends Fragment {
+public class SumDurationBySelectCatsListFragment extends Fragment {
     private static final String DATE_FORMAT_PATTERN = "d MMM yyyy HH:mm";
     private static final String DATE_FORMAT_PATTERN_MINI = "MMMM dd";
     private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
@@ -84,8 +84,7 @@ public class DurationByCatFragment extends Fragment {
         if (context instanceof CategoryFragment.OnCategoriesFragmentInteractionListener) {
             mListener = (CategoryFragment.OnCategoriesFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnCategoryListFragmentInteractionListener");
+            throw new RuntimeException(context.toString());
         }
     }
 
@@ -200,7 +199,7 @@ public class DurationByCatFragment extends Fragment {
                     catToShow.add(category);
                 }
             }
-            recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), DurationByCatFragment.this));
+            recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), SumDurationBySelectCatsListFragment.this));
 
             return null;
         }

@@ -29,7 +29,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class GlobalDurationFragment extends Fragment {
+public class SumDurationListFragment extends Fragment {
     private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
     private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
     private static final String DATE_FORMAT_PATTERN = "d MMM yyyy HH:mm";
@@ -68,8 +68,7 @@ public class GlobalDurationFragment extends Fragment {
         if (context instanceof CategoryFragment.OnCategoriesFragmentInteractionListener) {
             mListener = (CategoryFragment.OnCategoriesFragmentInteractionListener) context;
         } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnCategoryListFragmentInteractionListener");
+            throw new RuntimeException(context.toString());
         }
     }
 
@@ -167,9 +166,9 @@ public class GlobalDurationFragment extends Fragment {
         @Override
         protected Void doInBackground(Date... objects) {
             if (objects[0] != null && objects[1] != null) {
-                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(objects[0], objects[1]), mListener, getContext(), GlobalDurationFragment.this));
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(objects[0], objects[1]), mListener, getContext(), SumDurationListFragment.this));
             } else {
-                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(), mListener, getContext(), GlobalDurationFragment.this));
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(), mListener, getContext(), SumDurationListFragment.this));
             }
             return null;
         }

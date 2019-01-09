@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragment.statistic.GlobalDurationFragment">
+    tools:context=".fragment.statistic.SumDurationListFragment">
 
     <TextView
         android:id="@+id/startDateView"
@@ -49,7 +49,7 @@
         xmlns:app="http://schemas.android.com/apk/res-auto"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/sum_by_cat_list"
-        android:name="com.todo.androidtodo.MostOften"
+        android:name="com.example.author.timetracking.fragment.OftenListFragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
@@ -60,7 +60,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_button"
         tools:context=".persistence.ui.RecordsFragment"
-        tools:listitem="@layout/fragment_records" />
+        tools:listitem="@layout/fragment_record" />
 
     <CheckBox
         android:id="@+id/checkWork"
