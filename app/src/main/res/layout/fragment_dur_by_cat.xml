@@ -72,7 +72,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_button"
-        tools:context=".persistence.ui.RecordsFragment"
+        tools:context=".fragment.RecordsFragment"
         tools:listitem="@layout/fragment_record" />
 
     <android.support.design.internal.FlowLayout xmlns:android="http://schemas.android.com/apk/res/android"
