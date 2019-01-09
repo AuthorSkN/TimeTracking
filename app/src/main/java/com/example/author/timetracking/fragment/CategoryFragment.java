@@ -48,12 +48,8 @@ public class CategoryFragment extends Fragment {
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             final CategoryListViewModel viewModel =
                     ViewModelProviders.of(this).get(CategoryListViewModel.class);
-            viewModel.getCategories().observe(this, new Observer<List<Category>>() {
-                @Override
-                public void onChanged(@Nullable List<Category> categories) {
-                    recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
-
-                }
+            viewModel.getCategories().observe(this, categories -> {
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
             });
         }
 

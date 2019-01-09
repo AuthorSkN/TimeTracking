@@ -52,7 +52,7 @@ public class MostSumFragment extends Fragment {
         endDateView = view.findViewById(R.id.endDateView);
         configureDateTimeFragments();
         Context context = view.getContext();
-        recyclerView = (RecyclerView) view.findViewById(R.id.most_sum_list);
+        recyclerView =  view.findViewById(R.id.most_sum_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         viewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
         view.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
@@ -82,22 +82,16 @@ public class MostSumFragment extends Fragment {
     }
 
     private void configureDateTimeFragments() {
-        startDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentStart.startAtCalendarView();
-                dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentStart.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_START);
-            }
+        startDateView.setOnClickListener(event -> {
+            dateTimeFragmentStart.startAtCalendarView();
+            dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentStart.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_START);
         });
 
-        endDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentEnd.startAtCalendarView();
-                dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentEnd.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_END);
-            }
+        endDateView.setOnClickListener(event -> {
+            dateTimeFragmentEnd.startAtCalendarView();
+            dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentEnd.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_END);
         });
 
         dateTimeFragmentStart = (SwitchDateTimeDialogFragment) getFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT_START);
@@ -111,7 +105,7 @@ public class MostSumFragment extends Fragment {
         dateTimeFragmentStart.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentStart.set24HoursMode(false);
         dateTimeFragmentStart.setHighlightAMPMSelection(false);
-        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentStart.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
             dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));

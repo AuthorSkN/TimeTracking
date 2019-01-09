@@ -26,12 +26,7 @@ public class CategoryListViewModel extends AndroidViewModel {
         observableCategories.setValue(null);
         repository = ((TrackingApplication) application).getRepository();
         LiveData<List<Category>> records = repository.getCategories();
-        observableCategories.addSource(records, new Observer<List<Category>>() {
-            @Override
-            public void onChanged(@Nullable List<Category> records) {
-                observableCategories.setValue(records);
-            }
-        });
+        observableCategories.addSource(records, records1 -> observableCategories.setValue(records1));
     }
 
     public LiveData<List<Category>> getCategories() {

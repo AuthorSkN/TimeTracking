@@ -48,18 +48,14 @@ public abstract class AppDatabase extends RoomDatabase {
                     public void onCreate(@NonNull SupportSQLiteDatabase db) {
                         super.onCreate(db);
 
-                        Executors.newSingleThreadExecutor().execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                Photo[] startPhotos = getStartPhotos();
-                                long[] photoIds = getInstance(context).getPhotoDAO().insert(startPhotos);
+                        Executors.newSingleThreadExecutor().execute(() -> {
+                            Photo[] startPhotos = getStartPhotos();
+                            long[] photoIds = getInstance(context).getPhotoDAO().insert(startPhotos);
 
-                                Category[] startCategories = getStartCategories(photoIds);
-                                getInstance(context).getCategoryDAO().insert(startCategories);
+                            Category[] startCategories = getStartCategories(photoIds);
+                            getInstance(context).getCategoryDAO().insert(startCategories);
 
-                                getInstance(context).setDatabaseCreated();
-                            }
-
+                            getInstance(context).setDatabaseCreated();
                         });
                     }
                 })

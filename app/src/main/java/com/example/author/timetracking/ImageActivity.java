@@ -45,14 +45,11 @@ public class ImageActivity extends AppCompatActivity {
             text.setText(photo.getDescription());
         }
         Button saveButton = findViewById(R.id.saveButton);
-        saveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                photo.setDescription(text.getText().toString());
-                getIntent().putExtra(CURRENT_PHOTO, photo);
-                setResult(RESULT_PHOTO, getIntent());
-                finish();
-            }
+        saveButton.setOnClickListener(event -> {
+            photo.setDescription(text.getText().toString());
+            getIntent().putExtra(CURRENT_PHOTO, photo);
+            setResult(RESULT_PHOTO, getIntent());
+            finish();
         });
     }
 

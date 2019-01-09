@@ -63,22 +63,16 @@ public class PieFragment extends Fragment {
 
 
     private void configureDateTimeFragments() {
-        startDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentStart.startAtCalendarView();
-                dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentStart.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_START);
-            }
+        startDateView.setOnClickListener(event -> {
+            dateTimeFragmentStart.startAtCalendarView();
+            dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentStart.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_START);
         });
 
-        endDateView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dateTimeFragmentEnd.startAtCalendarView();
-                dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
-                dateTimeFragmentEnd.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_END);
-            }
+        endDateView.setOnClickListener(event -> {
+            dateTimeFragmentEnd.startAtCalendarView();
+            dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
+            dateTimeFragmentEnd.show(getFragmentManager(), TAG_DATETIME_FRAGMENT_END);
         });
 
         dateTimeFragmentStart = (SwitchDateTimeDialogFragment) getFragmentManager().findFragmentByTag(TAG_DATETIME_FRAGMENT_START);

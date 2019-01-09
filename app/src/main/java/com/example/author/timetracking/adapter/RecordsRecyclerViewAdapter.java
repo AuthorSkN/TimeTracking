@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecyclerViewAdapter.ViewHolder> {
-    
+
     public static final String RECORD_MODEL = "record-model";
 
     private List<Record> mValues;
@@ -92,33 +92,24 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
             }
         });
         holder.mRecordTitle.setText(mValues.get(position).getTitle());
-        holder.mView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (null != mListener) {
-                    Intent intent = new Intent(owner.getContext(), RecordActivity.class);
-                    intent.putExtra(RECORD_MODEL, mValues.get(position));
-                    owner.startActivity(intent);
-                    mListener.OnRecordsListFragmentInteractionListener(holder.mItem);
-                }
+        holder.mView.setOnClickListener(v -> {
+            if (null != mListener) {
+                Intent intent = new Intent(owner.getContext(), RecordActivity.class);
+                intent.putExtra(RECORD_MODEL, mValues.get(position));
+                owner.startActivity(intent);
+                mListener.OnRecordsListFragmentInteractionListener(holder.mItem);
             }
         });
         if (owner instanceof RecordsListFragment) {
-            holder.mView.setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View v) {
-                    new AlertDialog.Builder(owner.getContext())
-                            .setTitle("Confirm")
-                            .setMessage("Do you really want to delete this record?")
-                            .setIcon(android.R.drawable.ic_dialog_alert)
-                            .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-
-                                public void onClick(DialogInterface dialog, int whichButton) {
-                                    recordDAO.delete(mValues.get(position));
-                                }})
-                            .setNegativeButton(android.R.string.no, null).show();
-                    return true;
-                }
+            holder.mView.setOnLongClickListener(v -> {
+                new AlertDialog.Builder(owner.getContext())
+                        .setTitle("Confirm")
+                        .setMessage("Do you really want to delete this record?")
+                        .setIcon(android.R.drawable.ic_dialog_alert)
+                        .setPositiveButton(android.R.string.yes,
+                                (dialog, whichButton) -> recordDAO.delete(mValues.get(position)))
+                        .setNegativeButton(android.R.string.no, null).show();
+                return true;
             });
         }
     }
@@ -137,8 +128,8 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mCategoryIcon = (ImageView) view.findViewById(R.id.category_icon);
-            mRecordTitle = (TextView) view.findViewById(R.id.record_id);
+            mCategoryIcon =  view.findViewById(R.id.category_icon);
+            mRecordTitle =  view.findViewById(R.id.record_id);
         }
 
         @Override

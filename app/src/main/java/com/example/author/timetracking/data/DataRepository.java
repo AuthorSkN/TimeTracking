@@ -26,20 +26,14 @@ public class DataRepository {
         observableRecords = new MediatorLiveData<>();
         observableCategories = new MediatorLiveData<>();
 
-        observableRecords.addSource(appDatabase.getRecordDAO().getAll(), new Observer<List<Record>>() {
-            @Override
-            public void onChanged(@Nullable List<Record> records) {
-                if (appDatabase.getDatabaseCreated().getValue() != null) {
-                    observableRecords.postValue(records);
-                }
+        observableRecords.addSource(appDatabase.getRecordDAO().getAll(), records -> {
+            if (appDatabase.getDatabaseCreated().getValue() != null) {
+                observableRecords.postValue(records);
             }
         });
-        observableCategories.addSource(appDatabase.getCategoryDAO().getAll(), new Observer<List<Category>>() {
-            @Override
-            public void onChanged(@Nullable List<Category> categories) {
-                if (appDatabase.getDatabaseCreated().getValue() != null) {
-                    observableCategories.postValue(categories);
-                }
+        observableCategories.addSource(appDatabase.getCategoryDAO().getAll(), categories -> {
+            if (appDatabase.getDatabaseCreated().getValue() != null) {
+                observableCategories.postValue(categories);
             }
         });
     }
@@ -55,9 +49,6 @@ public class DataRepository {
         return sInstance;
     }
 
-    /**
-     * Get the list of products from the database and get notified when the data changes.
-     */
     public LiveData<List<Record>> getRecords() {
         return observableRecords;
     }

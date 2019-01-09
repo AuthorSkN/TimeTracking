@@ -45,38 +45,29 @@ public class CategoryActivity extends AppCompatActivity {
         image = findViewById(R.id.imageCatView);
         photoDAO = AppDatabase.getInstance(getApplicationContext()).getPhotoDAO();
         updateView();
-        findViewById(R.id.button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                category.setDescription(description.getText().toString());
-                category.setTitle(title.getText().toString());
-                if (photo != null) {
-                    int size = photoDAO.update(photo);
-                    if (size == 0) {
-                        long[] phId = photoDAO.insert(photo);
-                        category.setPhId(phId[0]);
-                    }
+        findViewById(R.id.button).setOnClickListener(event -> {
+            category.setDescription(description.getText().toString());
+            category.setTitle(title.getText().toString());
+            if (photo != null) {
+                int size = photoDAO.update(photo);
+                if (size == 0) {
+                    long[] phId = photoDAO.insert(photo);
+                    category.setPhId(phId[0]);
                 }
-                AppDatabase.getInstance(getApplicationContext()).getCategoryDAO().update(category);
-                finish();
             }
+            AppDatabase.getInstance(getApplicationContext()).getCategoryDAO().update(category);
+            finish();
         });
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-                photoPickerIntent.setType("image/*");
-                startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
-            }
+        image.setOnClickListener(event -> {
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
         });
-        image.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
-                intent.putExtra(CURRENT_PHOTO, photo);
-                startActivityForResult(intent, 1);
-                return true;
-            }
+        image.setOnLongClickListener(event -> {
+            Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+            intent.putExtra(CURRENT_PHOTO, photo);
+            startActivityForResult(intent, 1);
+            return true;
         });
     }
 

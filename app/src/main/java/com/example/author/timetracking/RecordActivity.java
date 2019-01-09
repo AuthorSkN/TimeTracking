@@ -182,13 +182,10 @@ public class RecordActivity  extends AppCompatActivity {
                     imageView.setImageBitmap(selectedImage);
                     imageView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
                     Photo photo = new Photo(imageUri.toString());
-                    imageView.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
-                            intent.putExtra(CURRENT_PHOTO, photo);
-                            startActivityForResult(intent, 1);
-                        }
+                    imageView.setOnClickListener(event -> {
+                        Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                        intent.putExtra(CURRENT_PHOTO, photo);
+                        startActivityForResult(intent, 1);
                     });
                     imageLayout.addView(imageView);
 
@@ -231,13 +228,10 @@ public class RecordActivity  extends AppCompatActivity {
                         final InputStream imageStream = getContentResolver().openInputStream(imageUri);
                         final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
                         ImageView imageView = new ImageView(getApplicationContext());
-                        imageView.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
-                                intent.putExtra(CURRENT_PHOTO, photo);
-                                startActivityForResult(intent, 1);
-                            }
+                        imageView.setOnClickListener(event -> {
+                            Intent intent = new Intent(getApplicationContext(), ImageActivity.class);
+                            intent.putExtra(CURRENT_PHOTO, photo);
+                            startActivityForResult(intent, 1);
                         });
                         imageView.setImageBitmap(selectedImage);
                         imageView.setLayoutParams(new LinearLayout.LayoutParams(300, 300));
@@ -251,13 +245,13 @@ public class RecordActivity  extends AppCompatActivity {
     }
 
     private void configureDateTimeFragments() {
-        startDateView.setOnClickListener(v -> {
+        startDateView.setOnClickListener(event -> {
             dateTimeFragmentStart.startAtCalendarView();
             dateTimeFragmentStart.setDefaultDateTime(new GregorianCalendar().getTime());
             dateTimeFragmentStart.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_START);
         });
 
-        endDateView.setOnClickListener(v -> {
+        endDateView.setOnClickListener(event -> {
             dateTimeFragmentEnd.startAtCalendarView();
             dateTimeFragmentEnd.setDefaultDateTime(new GregorianCalendar().getTime());
             dateTimeFragmentEnd.show(getSupportFragmentManager(), TAG_DATETIME_FRAGMENT_END);

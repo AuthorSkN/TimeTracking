@@ -63,15 +63,12 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
             final InputStream imageStream = owner.getContext().getContentResolver().openInputStream(imageUri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
             holder.mCategoryIcon.setImageBitmap(selectedImage);
-            holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (null != mListener) {
-                        Intent intent = new Intent(owner.getContext(), CategoryActivity.class);
-                        intent.putExtra(CATEGORY_MODEL, mValues.get(position));
-                        owner.startActivity(intent);
-                        mListener.onCategoriesFragmentInteraction(holder.mItem);
-                    }
+            holder.mView.setOnClickListener(v -> {
+                if (null != mListener) {
+                    Intent intent = new Intent(owner.getContext(), CategoryActivity.class);
+                    intent.putExtra(CATEGORY_MODEL, mValues.get(position));
+                    owner.startActivity(intent);
+                    mListener.onCategoriesFragmentInteraction(holder.mItem);
                 }
             });
         } catch (FileNotFoundException err) {
@@ -93,8 +90,8 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
         public ViewHolder(View view) {
             super(view);
             mView = view;
-            mCategoryIcon = (ImageView) view.findViewById(R.id.category_icon);
-            mCategoryTitle = (TextView) view.findViewById(R.id.category_title);
+            mCategoryIcon =  view.findViewById(R.id.category_icon);
+            mCategoryTitle = view.findViewById(R.id.category_title);
         }
 
         @Override
