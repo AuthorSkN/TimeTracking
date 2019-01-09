@@ -1,8 +1,9 @@
-package com.example.author.timetracking.fragment;
+package com.example.author.timetracking.fragment.statistic;
 
 import android.arch.lifecycle.Observer;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -13,40 +14,34 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.author.timetracking.R;
+import com.example.author.timetracking.adapter.MyRecordsRecyclerViewAdapter;
 import com.example.author.timetracking.data.entity.Record;
 import com.example.author.timetracking.data.viewmodel.RecordsListViewModel;
-import com.example.author.timetracking.adapter.MyRecordsRecyclerViewAdapter;
+import com.example.author.timetracking.fragment.RecordsFragment;
+
 
 import java.util.List;
 
-public class RecordsFragment extends Fragment {
-
-    private OnRecordsListFragmentInteractionListener mListener;
-
-
-    public RecordsFragment() {
-    }
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
+public class MostOftenFragment extends Fragment {
+    private RecordsFragment.OnRecordsListFragmentInteractionListener mListener;
+    private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_records_list, container, false);
+        View view = inflater.inflate(R.layout.mostoften, container, false);
 
+        // Set the adapter
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
-            RecyclerView recyclerView = (RecyclerView) view;
+            recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
             final RecordsListViewModel viewModel =
                     ViewModelProviders.of(this).get(RecordsListViewModel.class);
             viewModel.getRecords().observe(this, new Observer<List<Record>>() {
                 @Override
                 public void onChanged(@Nullable List<Record> records) {
-                    recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), RecordsFragment.this));
+                    recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this));
 
                 }
             });
@@ -54,12 +49,11 @@ public class RecordsFragment extends Fragment {
         return view;
     }
 
-
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-        if (context instanceof OnRecordsListFragmentInteractionListener) {
-            mListener = (OnRecordsListFragmentInteractionListener) context;
+        if (context instanceof RecordsFragment.OnRecordsListFragmentInteractionListener) {
+            mListener = (RecordsFragment.OnRecordsListFragmentInteractionListener) context;
         } else {
             throw new RuntimeException(context.toString()
                     + " must implement OnRecordsListFragmentInteractionListener");
@@ -72,9 +66,10 @@ public class RecordsFragment extends Fragment {
         mListener = null;
     }
 
-    public interface OnRecordsListFragmentInteractionListener {
-
-        void OnRecordsListFragmentInteractionListener(Record item);
-
-    }
+//    private class Find extends AsyncTask{
+//        @Override
+//        protected Object doInBackground(Object[] objects) {
+//            recyclerView.setAdapter(new MyRecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this))
+//        }
+//    }
 }

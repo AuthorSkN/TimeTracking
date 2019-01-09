@@ -1,4 +1,4 @@
-package com.example.author.timetracking.rvadapter;
+package com.example.author.timetracking.adapter;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.Observer;

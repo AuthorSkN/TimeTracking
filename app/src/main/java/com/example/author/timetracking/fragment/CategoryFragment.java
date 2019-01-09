@@ -15,7 +15,7 @@ import android.view.ViewGroup;
 import com.example.author.timetracking.R;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
-import com.example.author.timetracking.rvadapter.MyCategoriesRecyclerViewAdapter;
+import com.example.author.timetracking.adapter.MyCategoriesRecyclerViewAdapter;
 
 import java.util.List;
 

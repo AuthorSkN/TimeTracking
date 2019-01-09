@@ -50,6 +50,8 @@ public class CategoryListViewModel extends AndroidViewModel {
         return repository.getSum();
     }
 
-
+    public List<Category> getSum(Date start, Date end) {
+        return repository.getSum(start, end);
+    }
 
 }
