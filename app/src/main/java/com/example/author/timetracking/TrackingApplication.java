@@ -3,7 +3,7 @@ package com.example.author.timetracking;
 import android.app.Application;
 
 import com.example.author.timetracking.data.AppDatabase;
-import com.example.author.timetracking.data.DataRepository;
+import com.example.author.timetracking.data.DataObservable;
 
 public class TrackingApplication extends Application {
 
@@ -11,7 +11,7 @@ public class TrackingApplication extends Application {
         return AppDatabase.getInstance(this);
     }
 
-    public DataRepository getRepository() {
-        return DataRepository.getInstance(getDatabase());
+    public DataObservable getRepository() {
+        return DataObservable.getInstance(getDatabase());
     }
 }

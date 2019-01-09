@@ -21,6 +21,8 @@ import java.util.concurrent.Executors;
 @TypeConverters(DateConverter.class)
 public abstract class AppDatabase extends RoomDatabase {
 
+    private static final String DATABASE_NAME = "time-racking-db";
+
     private static AppDatabase instance;
     private final MutableLiveData<Boolean> isCreated = new MutableLiveData<>();
 
@@ -41,7 +43,7 @@ public abstract class AppDatabase extends RoomDatabase {
     private static AppDatabase buildDatabase(final Context context) {
         return Room.databaseBuilder(context,
                 AppDatabase.class,
-                "my-database")
+                DATABASE_NAME)
                 .allowMainThreadQueries()
                 .addCallback(new Callback() {
                     @Override

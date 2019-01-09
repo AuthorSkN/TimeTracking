@@ -2,8 +2,6 @@ package com.example.author.timetracking.data;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Photo;
@@ -12,16 +10,16 @@ import com.example.author.timetracking.data.entity.Record;
 import java.util.Date;
 import java.util.List;
 
-public class DataRepository {
+public class DataObservable {
 
-    private static DataRepository sInstance;
+    private static DataObservable sInstance;
 
     private final AppDatabase appDatabase;
     private MediatorLiveData<List<Record>> observableRecords;
     private MediatorLiveData<List<Category>> observableCategories;
     private MediatorLiveData<List<Photo>> observablePhotos;
 
-    private DataRepository(final AppDatabase database) {
+    private DataObservable(final AppDatabase database) {
         appDatabase = database;
         observableRecords = new MediatorLiveData<>();
         observableCategories = new MediatorLiveData<>();
@@ -38,11 +36,11 @@ public class DataRepository {
         });
     }
 
-    public static DataRepository getInstance(final AppDatabase database) {
+    public static DataObservable getInstance(final AppDatabase database) {
         if (sInstance == null) {
-            synchronized (DataRepository.class) {
+            synchronized (DataObservable.class) {
                 if (sInstance == null) {
-                    sInstance = new DataRepository(database);
+                    sInstance = new DataObservable(database);
                 }
             }
         }

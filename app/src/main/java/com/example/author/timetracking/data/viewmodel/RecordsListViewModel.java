@@ -6,14 +6,14 @@ import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
 
 import com.example.author.timetracking.TrackingApplication;
-import com.example.author.timetracking.data.DataRepository;
+import com.example.author.timetracking.data.DataObservable;
 import com.example.author.timetracking.data.entity.Record;
 
 import java.util.List;
 
 public class RecordsListViewModel extends AndroidViewModel {
 
-    private final DataRepository repository;
+    private final DataObservable repository;
     private final MediatorLiveData<List<Record>> observableRecords;
 
     public RecordsListViewModel(Application application) {

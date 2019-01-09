@@ -4,11 +4,9 @@ import android.app.Application;
 import android.arch.lifecycle.AndroidViewModel;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MediatorLiveData;
-import android.arch.lifecycle.Observer;
-import android.support.annotation.Nullable;
 
 import com.example.author.timetracking.TrackingApplication;
-import com.example.author.timetracking.data.DataRepository;
+import com.example.author.timetracking.data.DataObservable;
 import com.example.author.timetracking.data.entity.Category;
 
 import java.util.Date;
@@ -16,7 +14,7 @@ import java.util.List;
 
 public class CategoryListViewModel extends AndroidViewModel {
 
-    private final DataRepository repository;
+    private final DataObservable repository;
     private final MediatorLiveData<List<Category>> observableCategories;
 
     public CategoryListViewModel(Application application) {

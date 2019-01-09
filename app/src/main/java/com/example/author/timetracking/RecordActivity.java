@@ -22,7 +22,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.author.timetracking.data.AppDatabase;
-import com.example.author.timetracking.data.DataRepository;
+import com.example.author.timetracking.data.DataObservable;
 import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Photo;
 import com.example.author.timetracking.data.entity.Record;
@@ -52,7 +52,7 @@ public class RecordActivity  extends AppCompatActivity {
     private Record record;
     private Spinner spinner;
     private AppDatabase appDatabase;
-    private DataRepository repository;
+    private DataObservable repository;
     private Button addImageButton;
     private FlexboxLayout imageLayout;
     private SwitchDateTimeDialogFragment dateTimeFragmentStart;

@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder>{
-    public static final String CATEGORY_MODEL = "currentCategory";
+    public static final String SELECTED_MODEL = "selected model";
 
     private List<Category> mValues;
     private final CategoryFragment.OnCategoriesFragmentInteractionListener mListener;
@@ -63,10 +63,10 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
             final InputStream imageStream = owner.getContext().getContentResolver().openInputStream(imageUri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
             holder.mCategoryIcon.setImageBitmap(selectedImage);
-            holder.mView.setOnClickListener(v -> {
+            holder.mView.setOnClickListener(event -> {
                 if (null != mListener) {
                     Intent intent = new Intent(owner.getContext(), CategoryActivity.class);
-                    intent.putExtra(CATEGORY_MODEL, mValues.get(position));
+                    intent.putExtra(SELECTED_MODEL, mValues.get(position));
                     owner.startActivity(intent);
                     mListener.onCategoriesFragmentInteraction(holder.mItem);
                 }
