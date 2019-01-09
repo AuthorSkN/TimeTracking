@@ -13,7 +13,7 @@ import java.util.List;
 
 public class RecordsListViewModel extends AndroidViewModel {
 
-    private final DataObservable repository;
+    private final DataObservable dataObservable;
     private final MediatorLiveData<List<Record>> observableRecords;
 
     public RecordsListViewModel(Application application) {
@@ -21,8 +21,8 @@ public class RecordsListViewModel extends AndroidViewModel {
 
         observableRecords = new MediatorLiveData<>();
         observableRecords.setValue(null);
-        repository = ((TrackingApplication)application).getRepository();
-        LiveData<List<Record>> records = repository.getRecords();
+        dataObservable = ((TrackingApplication)application).getDataObservable();
+        LiveData<List<Record>> records = dataObservable.getRecords();
         observableRecords.addSource(records, observableRecords::setValue);
     }
 

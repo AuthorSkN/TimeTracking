@@ -24,10 +24,11 @@
             <EditText
                 android:id="@+id/edit_title"
                 android:layout_width="match_parent"
-                android:layout_height="47dp"
+                android:layout_height="64dp"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
+                android:textSize="32sp"
                 android:ems="10"
                 android:inputType="textPersonName"
                 android:text="Title"
@@ -39,119 +40,137 @@
                 android:id="@+id/text_stdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="40dp"
                 android:layout_marginTop="8dp"
-                android:text="Start date:"
+                android:layout_marginBottom="8dp"
+                android:text="Start date"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/view_stdate"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+
+            <TextView
+                android:id="@+id/text_between"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginBottom="15dp"
+                android:text="--"
+                android:textColor="@color/textColor"
+                android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/cats_spinner"
+                app:layout_constraintEnd_toEndOf="@+id/text_edate"
+                app:layout_constraintStart_toStartOf="@+id/text_stdate" />
 
             <TextView
                 android:id="@+id/text_edate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
-                android:text="End date:"
+                android:layout_marginEnd="40dp"
+                android:layout_marginBottom="8dp"
+                android:text="End date"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_stdate" />
+                app:layout_constraintBottom_toTopOf="@+id/view_edate"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/edit_title" />
 
             <TextView
                 android:id="@+id/view_stdate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
                 android:layout_marginEnd="8dp"
-                android:text="your start date"
+                android:layout_marginBottom="15dp"
+                android:text="select date"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
-
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/text_stdate"
-                app:layout_constraintTop_toBottomOf="@+id/edit_title" />
+                app:layout_constraintBottom_toTopOf="@+id/cats_spinner"
+                app:layout_constraintEnd_toStartOf="@+id/text_between"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <TextView
                 android:id="@+id/view_edate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:text="your end date"
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                android:text="select date"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
+                app:layout_constraintBottom_toTopOf="@+id/cats_spinner"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.503"
-                app:layout_constraintStart_toEndOf="@+id/text_edate"
-                app:layout_constraintTop_toBottomOf="@+id/view_stdate" />
+                app:layout_constraintStart_toEndOf="@+id/text_between" />
 
             <TextView
                 android:id="@+id/text_cat"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:text="Category"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="8dp"
+                android:text="Category:"
                 android:textColor="@color/textColor"
                 android:textSize="20sp"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/text_edate" />
+                app:layout_constraintBottom_toTopOf="@+id/addImage"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Spinner
                 android:id="@+id/cats_spinner"
-                android:layout_width="271dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="10dp"
-
+                android:layout_marginEnd="15dp"
+                android:layout_marginBottom="15dp"
+                app:layout_constraintBottom_toTopOf="@+id/addImage"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toEndOf="@+id/text_cat"
-                app:layout_constraintTop_toBottomOf="@+id/view_edate" />
+                app:layout_constraintStart_toEndOf="@+id/text_cat" />
 
             <Button
                 android:id="@+id/addImage"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:text="Add image"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/cats_spinner" />
+                android:layout_marginBottom="8dp"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
+                android:text="Add photo"
+                app:layout_constraintBottom_toTopOf="@+id/saveButton"
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
             <com.google.android.flexbox.FlexboxLayout
                 android:id="@+id/imagesLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginBottom="10dp"
                 app:flexWrap="wrap"
                 app:layout_constraintBottom_toTopOf="@+id/saveButton"
-                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/addImage"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/addImage">
+                app:layout_constraintTop_toBottomOf="@+id/text_cat">
 
             </com.google.android.flexbox.FlexboxLayout>
 
 
             <Button
                 android:id="@+id/saveButton"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="10dp"
+                android:background="@color/colorAccent"
+                android:textColor="@color/colorPrimary"
                 android:text="Save"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.486"
                 app:layout_constraintStart_toStartOf="parent" />
         </android.support.constraint.ConstraintLayout>
     </ScrollView>

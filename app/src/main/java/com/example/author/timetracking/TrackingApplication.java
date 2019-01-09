@@ -11,7 +11,7 @@ public class TrackingApplication extends Application {
         return AppDatabase.getInstance(this);
     }
 
-    public DataObservable getRepository() {
+    public DataObservable getDataObservable() {
         return DataObservable.getInstance(getDatabase());
     }
 }

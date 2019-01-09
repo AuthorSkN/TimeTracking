@@ -43,6 +43,11 @@ import java.util.TimeZone;
 
 public class RecordActivity  extends AppCompatActivity {
 
+    private static final String DATE_FORMAT_PATTERN = "d MMM yyyy HH:mm";
+    private static final String DATE_FORMAT_PATTERN_MINI = "MMMM dd";
+    private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
+    private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
+
     public static final int RESULT_LOAD_IMG = 1;
     public static final int RESULT_CANCEL = 0;
     public static final String CURRENT_PHOTO = "currentPhoto";
@@ -51,14 +56,12 @@ public class RecordActivity  extends AppCompatActivity {
 
     private Record record;
     private Spinner spinner;
-    private AppDatabase appDatabase;
-    private DataObservable repository;
+    private AppDatabase database;
+    private DataObservable dataObservable;
     private Button addImageButton;
     private FlexboxLayout imageLayout;
     private SwitchDateTimeDialogFragment dateTimeFragmentStart;
     private SwitchDateTimeDialogFragment dateTimeFragmentEnd;
-    private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
-    private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
     private TextView startDateView;
     private TextView endDateView;
     private Date start;
@@ -74,8 +77,8 @@ public class RecordActivity  extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        appDatabase = AppDatabase.getInstance(this);
-        repository = ((TrackingApplication) getApplication()).getRepository();
+        database = AppDatabase.getInstance(this);
+        dataObservable = ((TrackingApplication) getApplication()).getDataObservable();
         setContentView(R.layout.activity_record);
         spinner = findViewById(R.id.cats_spinner);
         final CategoryListViewModel categoriesViewModel = ViewModelProviders.of(this)
@@ -86,7 +89,7 @@ public class RecordActivity  extends AppCompatActivity {
                 allCategories = new ArrayList<>();
             } else {
                 allCategories = categories;
-                changeSpinnerItems();
+                setSpinnerItems();
             }
         });
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -110,7 +113,7 @@ public class RecordActivity  extends AppCompatActivity {
             startActivityForResult(photoPickerIntent, RESULT_LOAD_IMG);
         });
 
-        dateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", java.util.Locale.getDefault());
+        dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN, java.util.Locale.getDefault());
         startDateView = findViewById(R.id.view_stdate);
         endDateView = findViewById(R.id.view_edate);
 
@@ -122,7 +125,7 @@ public class RecordActivity  extends AppCompatActivity {
         getIncomeData();
     }
 
-    private void changeSpinnerItems() {
+    private void setSpinnerItems() {
         List<String> titles = new ArrayList<>();
         for (Category category : allCategories) {
             titles.add(category.getTitle());
@@ -137,7 +140,7 @@ public class RecordActivity  extends AppCompatActivity {
         record.setStartTime(start);
         EditText title = findViewById(R.id.edit_title);
         record.setTitle(title.getText().toString());
-        long recId = appDatabase.getRecordDAO().insert(record);
+        long recId = database.getRecordDAO().insert(record);
         Photo[] photosToUpdate = new Photo[recentlyAddedPhotos.size()];
         Photo[] photosToInsert = new Photo[addedPhotos.size() - recentlyAddedPhotos.size()];
         int indexU = 0;
@@ -156,8 +159,8 @@ public class RecordActivity  extends AppCompatActivity {
             }
         }
 
-        appDatabase.getPhotoDAO().update(photosToUpdate);
-        appDatabase.getPhotoDAO().insert(photosToInsert);
+        database.getPhotoDAO().update(photosToUpdate);
+        database.getPhotoDAO().insert(photosToInsert);
         Intent intent = new Intent(getApplicationContext(), StartActivity.class);
         startActivity(intent);
     }
@@ -217,7 +220,7 @@ public class RecordActivity  extends AppCompatActivity {
             endDateView.setText(dateFormat.format(record.getEndTime().toString()));
         }
         ((EditText) findViewById(R.id.edit_title)).setText(record.getTitle());
-        repository.getPhotosByRecord(record.getRecordId())
+        dataObservable.getPhotosByRecord(record.getRecordId())
                 .observe(this, photos -> {
             if (photos != null) {
                 try {
@@ -268,10 +271,10 @@ public class RecordActivity  extends AppCompatActivity {
         dateTimeFragmentStart.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentStart.set24HoursMode(false);
         dateTimeFragmentStart.setHighlightAMPMSelection(false);
-        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentStart.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("Stat date fragment", e.getMessage());
         }
@@ -303,10 +306,10 @@ public class RecordActivity  extends AppCompatActivity {
         dateTimeFragmentEnd.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentEnd.set24HoursMode(false);
         dateTimeFragmentEnd.setHighlightAMPMSelection(false);
-        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentEnd.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("End date fragment", e.getMessage());
         }

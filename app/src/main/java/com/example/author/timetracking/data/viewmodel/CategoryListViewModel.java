@@ -14,7 +14,7 @@ import java.util.List;
 
 public class CategoryListViewModel extends AndroidViewModel {
 
-    private final DataObservable repository;
+    private final DataObservable dataObservable;
     private final MediatorLiveData<List<Category>> observableCategories;
 
     public CategoryListViewModel(Application application) {
@@ -22,8 +22,8 @@ public class CategoryListViewModel extends AndroidViewModel {
 
         observableCategories = new MediatorLiveData<>();
         observableCategories.setValue(null);
-        repository = ((TrackingApplication) application).getRepository();
-        LiveData<List<Category>> records = repository.getCategories();
+        dataObservable = ((TrackingApplication) application).getDataObservable();
+        LiveData<List<Category>> records = dataObservable.getCategories();
         observableCategories.addSource(records, records1 -> observableCategories.setValue(records1));
     }
 
@@ -32,19 +32,19 @@ public class CategoryListViewModel extends AndroidViewModel {
     }
 
     public List<Category> getMostSum() {
-        return repository.getMostSum();
+        return dataObservable.getMostSum();
     }
 
     public List<Category> getMostSum(Date start, Date end) {
-        return repository.getMostSum(start, end);
+        return dataObservable.getMostSum(start, end);
     }
 
     public List<Category> getSum() {
-        return repository.getSum();
+        return dataObservable.getSum();
     }
 
     public List<Category> getSum(Date start, Date end) {
-        return repository.getSum(start, end);
+        return dataObservable.getSum(start, end);
     }
 
 }
