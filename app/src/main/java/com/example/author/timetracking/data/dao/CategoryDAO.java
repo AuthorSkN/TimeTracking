@@ -24,16 +24,16 @@ public interface CategoryDAO {
     @Delete
     void delete(Category category);
 
-    @Query("SELECT * FROM Category")
+    @Query("select * from Category")
     LiveData<List<Category>> getAll();
 
-    @Query("SELECT * FROM Category WHERE categoryId=:categoryId LIMIT 1")
+    @Query("select * from Category where categoryId=:categoryId limit 1")
     LiveData<Category> findById(long categoryId);
 
-    @Query("Select sum(duration) as sum,categoryId, phid, category.title from category join record on catId = categoryid group by categoryid, phid order by sum DESC")
+    @Query("select sum(duration) as sum, categoryId, phid, category.title from category join record on catId = categoryid group by categoryid, phid order by sum desc")
     List<Category> getMostSum();
 
-    @Query("Select sum(duration) as sum,categoryId, phid, category.title from category join record on catId = categoryid and startTime >= :start and endTime <=:end group by categoryid, phid order by sum DESC")
+    @Query("select sum(duration) as sum,categoryId, phid, category.title from category join record on catId = categoryid and startTime >= :start and endTime <=:end group by categoryid, phid order by sum desc")
     List<Category> getMostSum(Date start, Date end);
 
     @Query("select sum(duration) as sum,categoryId, phid, category.title from category join record on categoryid = catId group by catId, phid")

@@ -33,15 +33,18 @@ import java.util.List;
 import java.util.Locale;
 import java.util.TimeZone;
 
-public class SumByCatFragment extends Fragment {
+public class DurationByCatFragment extends Fragment {
+    private static final String DATE_FORMAT_PATTERN = "d MMM yyyy HH:mm";
+    private static final String DATE_FORMAT_PATTERN_MINI = "MMMM dd";
+    private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
+    private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
+
     private CategoryFragment.OnCategoriesFragmentInteractionListener mListener;
     private SwitchDateTimeDialogFragment dateTimeFragmentStart;
     private SwitchDateTimeDialogFragment dateTimeFragmentEnd;
-    private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
-    private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
     private Date start;
     private Date end;
-    private SimpleDateFormat myDateFormat;
+    private SimpleDateFormat dateFormat;
     private TextView startDateView;
     private TextView endDateView;
     private RecyclerView recyclerView;
@@ -51,8 +54,8 @@ public class SumByCatFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.sum_by_cat, container, false);
-        myDateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", java.util.Locale.getDefault());
+        View view = inflater.inflate(R.layout.fragment_dur_by_cat, container, false);
+        dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN, java.util.Locale.getDefault());
         startDateView = view.findViewById(R.id.startDateView);
         endDateView = view.findViewById(R.id.endDateView);
         checkBoxes = new ArrayList<>();
@@ -63,7 +66,7 @@ public class SumByCatFragment extends Fragment {
         checkBoxes.add(view.findViewById(R.id.checkWork));
         configureDateTimeFragments();
         Context context = view.getContext();
-        recyclerView = (RecyclerView) view.findViewById(R.id.sum_by_cat_list);
+        recyclerView = view.findViewById(R.id.sum_by_cat_list);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         viewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
         view.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
@@ -116,17 +119,17 @@ public class SumByCatFragment extends Fragment {
         dateTimeFragmentStart.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentStart.set24HoursMode(false);
         dateTimeFragmentStart.setHighlightAMPMSelection(false);
-        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentStart.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("Stat date fragment", e.getMessage());
         }
         dateTimeFragmentStart.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                startDateView.setText(myDateFormat.format(date));
+                startDateView.setText(dateFormat.format(date));
                 start = date;
             }
 
@@ -151,17 +154,17 @@ public class SumByCatFragment extends Fragment {
         dateTimeFragmentEnd.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentEnd.set24HoursMode(false);
         dateTimeFragmentEnd.setHighlightAMPMSelection(false);
-        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentEnd.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("End date fragment", e.getMessage());
         }
         dateTimeFragmentEnd.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                endDateView.setText(myDateFormat.format(date));
+                endDateView.setText(dateFormat.format(date));
                 end = date;
             }
 
@@ -197,7 +200,7 @@ public class SumByCatFragment extends Fragment {
                     catToShow.add(category);
                 }
             }
-            recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), SumByCatFragment.this));
+            recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(catToShow, mListener, getContext(), DurationByCatFragment.this));
 
             return null;
         }

@@ -14,23 +14,23 @@ public class DataObservable {
 
     private static DataObservable sInstance;
 
-    private final AppDatabase appDatabase;
+    private final AppDatabase database;
     private MediatorLiveData<List<Record>> observableRecords;
     private MediatorLiveData<List<Category>> observableCategories;
     private MediatorLiveData<List<Photo>> observablePhotos;
 
     private DataObservable(final AppDatabase database) {
-        appDatabase = database;
-        observableRecords = new MediatorLiveData<>();
-        observableCategories = new MediatorLiveData<>();
+        this.database = database;
+        this.observableRecords = new MediatorLiveData<>();
+        this.observableCategories = new MediatorLiveData<>();
 
-        observableRecords.addSource(appDatabase.getRecordDAO().getAll(), records -> {
-            if (appDatabase.getDatabaseCreated().getValue() != null) {
+        this.observableRecords.addSource(this.database.getRecordDAO().getAll(), records -> {
+            if (this.database.getDatabaseCreated().getValue() != null) {
                 observableRecords.postValue(records);
             }
         });
-        observableCategories.addSource(appDatabase.getCategoryDAO().getAll(), categories -> {
-            if (appDatabase.getDatabaseCreated().getValue() != null) {
+        this.observableCategories.addSource(this.database.getCategoryDAO().getAll(), categories -> {
+            if (this.database.getDatabaseCreated().getValue() != null) {
                 observableCategories.postValue(categories);
             }
         });
@@ -52,23 +52,23 @@ public class DataObservable {
     }
 
     public LiveData<Record> loadRecord(final int recordId) {
-        return appDatabase.getRecordDAO().findById(recordId);
+        return database.getRecordDAO().findById(recordId);
     }
 
     public List<Category> getMostSum() {
-        return appDatabase.getCategoryDAO().getMostSum();
+        return database.getCategoryDAO().getMostSum();
     }
 
     public List<Category> getMostSum(Date start, Date end) {
-        return appDatabase.getCategoryDAO().getMostSum(start, end);
+        return database.getCategoryDAO().getMostSum(start, end);
     }
 
     public List<Category> getSum() {
-        return appDatabase.getCategoryDAO().getSum();
+        return database.getCategoryDAO().getSum();
     }
 
     public List<Category> getSum(Date start, Date end) {
-        return appDatabase.getCategoryDAO().getSum(start, end);
+        return database.getCategoryDAO().getSum(start, end);
     }
 
     public LiveData<List<Category>> getCategories() {
@@ -76,10 +76,10 @@ public class DataObservable {
     }
 
     public LiveData<Category> loadCategory(long catId) {
-        return appDatabase.getCategoryDAO().findById(catId);
+        return database.getCategoryDAO().findById(catId);
     }
 
     public LiveData<List<Photo>> getPhotosByRecord(long recordId) {
-        return appDatabase.getPhotoDAO().findByRecordId(recordId);
+        return database.getPhotoDAO().findByRecordId(recordId);
     }
 }

@@ -16,14 +16,14 @@ import com.example.author.timetracking.data.viewmodel.RecordsListViewModel;
 import com.example.author.timetracking.fragment.RecordsListFragment;
 
 
-public class MostOftenFragment extends Fragment {
+public class FrequentListFragment extends Fragment {
     private RecordsListFragment.OnRecordsListFragmentInteractionListener mListener;
     private RecyclerView recyclerView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.mostoften, container, false);
+        View view = inflater.inflate(R.layout.fragment_frqt_list, container, false);
 
         if (view instanceof RecyclerView) {
             Context context = view.getContext();
@@ -32,7 +32,7 @@ public class MostOftenFragment extends Fragment {
             final RecordsListViewModel viewModel =
                     ViewModelProviders.of(this).get(RecordsListViewModel.class);
             viewModel.getRecords().observe(this, records -> {
-                recyclerView.setAdapter(new RecordsRecyclerViewAdapter(records, mListener, getContext(), MostOftenFragment.this));
+                recyclerView.setAdapter(new RecordsRecyclerViewAdapter(records, mListener, getContext(), FrequentListFragment.this));
             });
         }
         return view;

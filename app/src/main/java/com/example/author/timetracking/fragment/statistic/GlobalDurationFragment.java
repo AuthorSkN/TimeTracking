@@ -1,10 +1,14 @@
 package com.example.author.timetracking.fragment.statistic;
 
+
 import android.arch.lifecycle.ViewModelProviders;
-import android.graphics.Color;
+import android.content.Context;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,55 +16,68 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.example.author.timetracking.R;
+import com.example.author.timetracking.adapter.CategoriesRecyclerViewAdapter;
 import com.example.author.timetracking.data.viewmodel.CategoryListViewModel;
-import com.example.author.timetracking.data.entity.*;
+import com.example.author.timetracking.fragment.CategoryFragment;
 import com.kunzisoft.switchdatetime.SwitchDateTimeDialogFragment;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
-import java.util.List;
+
 import java.util.Locale;
 import java.util.TimeZone;
 
-import lecho.lib.hellocharts.model.PieChartData;
-import lecho.lib.hellocharts.model.SliceValue;
-import lecho.lib.hellocharts.view.PieChartView;
-
-public class PieFragment extends Fragment {
-    private SwitchDateTimeDialogFragment dateTimeFragmentStart;
-    private SwitchDateTimeDialogFragment dateTimeFragmentEnd;
+public class GlobalDurationFragment extends Fragment {
     private static final String TAG_DATETIME_FRAGMENT_START = "TAG_DATETIME_FRAGMENT_START";
     private static final String TAG_DATETIME_FRAGMENT_END = "TAG_DATETIME_FRAGMENT_END";
+    private static final String DATE_FORMAT_PATTERN = "d MMM yyyy HH:mm";
+    private static final String DATE_FORMAT_PATTERN_MINI = "MMMM dd";
+
+    private CategoryFragment.OnCategoriesFragmentInteractionListener mListener;
+    private SwitchDateTimeDialogFragment dateTimeFragmentStart;
+    private SwitchDateTimeDialogFragment dateTimeFragmentEnd;
     private Date start;
     private Date end;
-    private SimpleDateFormat myDateFormat;
+    private SimpleDateFormat dateFormat;
     private TextView startDateView;
     private TextView endDateView;
+    private RecyclerView recyclerView;
     private CategoryListViewModel viewModel;
-    private PieChartView pieChartView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.pie, container, false);
-        myDateFormat = new SimpleDateFormat("d MMM yyyy HH:mm", java.util.Locale.getDefault());
+        View view = inflater.inflate(R.layout.fragment_global_dur, container, false);
+        dateFormat = new SimpleDateFormat(DATE_FORMAT_PATTERN, java.util.Locale.getDefault());
         startDateView = view.findViewById(R.id.startDateView);
         endDateView = view.findViewById(R.id.endDateView);
         configureDateTimeFragments();
-        pieChartView = view.findViewById(R.id.chart);
+        Context context = view.getContext();
+        recyclerView =  view.findViewById(R.id.most_sum_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
         viewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
-        view.findViewById(R.id.search_button).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new PieFragment.Find().doInBackground(start, end);
-            }
-        });
+        view.findViewById(R.id.search_button).setOnClickListener(event -> new Find().doInBackground(start, end));
         return view;
     }
 
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        if (context instanceof CategoryFragment.OnCategoriesFragmentInteractionListener) {
+            mListener = (CategoryFragment.OnCategoriesFragmentInteractionListener) context;
+        } else {
+            throw new RuntimeException(context.toString()
+                    + " must implement OnCategoryListFragmentInteractionListener");
+        }
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
+        mListener = null;
+    }
 
     private void configureDateTimeFragments() {
         startDateView.setOnClickListener(event -> {
@@ -86,17 +103,17 @@ public class PieFragment extends Fragment {
         dateTimeFragmentStart.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentStart.set24HoursMode(false);
         dateTimeFragmentStart.setHighlightAMPMSelection(false);
-        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentStart.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentStart.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentStart.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("Stat date fragment", e.getMessage());
         }
         dateTimeFragmentStart.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                startDateView.setText(myDateFormat.format(date));
+                startDateView.setText(dateFormat.format(date));
                 start = date;
             }
 
@@ -121,17 +138,17 @@ public class PieFragment extends Fragment {
         dateTimeFragmentEnd.setTimeZone(TimeZone.getDefault());
         dateTimeFragmentEnd.set24HoursMode(false);
         dateTimeFragmentEnd.setHighlightAMPMSelection(false);
-        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2015, Calendar.JANUARY, 1).getTime());
+        dateTimeFragmentEnd.setMinimumDateTime(new GregorianCalendar(2018, Calendar.JANUARY, 1).getTime());
         dateTimeFragmentEnd.setMaximumDateTime(new GregorianCalendar(2025, Calendar.DECEMBER, 31).getTime());
         try {
-            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat("MMMM dd", Locale.getDefault()));
+            dateTimeFragmentEnd.setSimpleDateMonthAndDayFormat(new SimpleDateFormat(DATE_FORMAT_PATTERN_MINI, Locale.getDefault()));
         } catch (SwitchDateTimeDialogFragment.SimpleDateMonthAndDayFormatException e) {
             Log.e("End date fragment", e.getMessage());
         }
         dateTimeFragmentEnd.setOnButtonClickListener(new SwitchDateTimeDialogFragment.OnButtonWithNeutralClickListener() {
             @Override
             public void onPositiveButtonClick(Date date) {
-                endDateView.setText(myDateFormat.format(date));
+                endDateView.setText(dateFormat.format(date));
                 end = date;
             }
 
@@ -149,21 +166,11 @@ public class PieFragment extends Fragment {
     private class Find extends AsyncTask<Date, Void, Void> {
         @Override
         protected Void doInBackground(Date... objects) {
-            List<SliceValue> pieData = new ArrayList<>();
-            List<Category> categories;
             if (objects[0] != null && objects[1] != null) {
-                categories = viewModel.getSum(objects[0], objects[1]);
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(objects[0], objects[1]), mListener, getContext(), GlobalDurationFragment.this));
             } else {
-                categories = viewModel.getSum();
+                recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(viewModel.getMostSum(), mListener, getContext(), GlobalDurationFragment.this));
             }
-            for (Category category : categories) {
-                SliceValue sliceValue = new SliceValue(category.getSum(), Color.rgb((int) (Math.random() * 255), (int) (Math.random() * 255), (int) (Math.random() * 255)));
-                sliceValue.setLabel(category.getTitle());
-                pieData.add(sliceValue);
-            }
-            PieChartData pieChartData = new PieChartData(pieData);
-            pieChartData.setHasLabels(true);
-            pieChartView.setPieChartData(pieChartData);
             return null;
         }
     }

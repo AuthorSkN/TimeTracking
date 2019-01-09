@@ -1,14 +1,11 @@
 package com.example.author.timetracking.adapter;
 
 import android.app.AlertDialog;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -68,40 +65,37 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        categoryDAO.findById(mValues.get(position).getCatId()).observe(owner, new Observer<Category>() {
-            @Override
-            public void onChanged(@Nullable Category category) {
-                if (category == null) {
-                    recordCategory = new Category();
-                } else {
-                    recordCategory = category;
-                    long phId = recordCategory.getPhId();
-                    try {
-                        Photo photo = photoDAO.findById(phId);
-                        final Uri imageUri = Uri.parse(photo.getImageUri());
-                        final InputStream imageStream = owner.getContext().getContentResolver().openInputStream(imageUri);
-                        final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-                        holder.mCategoryIcon.setImageBitmap(selectedImage);
-                    } catch (FileNotFoundException err) {
-                        Toast.makeText(owner.getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
-
-                    }
+        holder.item = mValues.get(position);
+        categoryDAO.findById(mValues.get(position).getCatId()).observe(owner, category -> {
+            if (category == null) {
+                recordCategory = new Category();
+            } else {
+                recordCategory = category;
+                long phId = recordCategory.getPhId();
+                try {
+                    Photo photo = photoDAO.findById(phId);
+                    final Uri imageUri = Uri.parse(photo.getImageUri());
+                    final InputStream imageStream = owner.getContext().getContentResolver().openInputStream(imageUri);
+                    final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
+                    holder.categoryIcon.setImageBitmap(selectedImage);
+                } catch (FileNotFoundException err) {
+                    Toast.makeText(owner.getContext(), "Something went wrong", Toast.LENGTH_LONG).show();
 
                 }
+
             }
         });
-        holder.mRecordTitle.setText(mValues.get(position).getTitle());
-        holder.mView.setOnClickListener(v -> {
+        holder.recordTitle.setText(mValues.get(position).getTitle());
+        holder.view.setOnClickListener(event -> {
             if (null != mListener) {
                 Intent intent = new Intent(owner.getContext(), RecordActivity.class);
                 intent.putExtra(RECORD_MODEL, mValues.get(position));
                 owner.startActivity(intent);
-                mListener.OnRecordsListFragmentInteractionListener(holder.mItem);
+                mListener.OnRecordsListFragmentInteractionListener(holder.item);
             }
         });
         if (owner instanceof RecordsListFragment) {
-            holder.mView.setOnLongClickListener(v -> {
+            holder.view.setOnLongClickListener(v -> {
                 new AlertDialog.Builder(owner.getContext())
                         .setTitle("Confirm")
                         .setMessage("Do you really want to delete this record?")
@@ -120,21 +114,21 @@ public class RecordsRecyclerViewAdapter extends RecyclerView.Adapter<RecordsRecy
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final ImageView mCategoryIcon;
-        public final TextView mRecordTitle;
-        public Record mItem;
+        public final View view;
+        public final ImageView categoryIcon;
+        public final TextView recordTitle;
+        public Record item;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mCategoryIcon =  view.findViewById(R.id.category_icon);
-            mRecordTitle =  view.findViewById(R.id.record_id);
+            this.view = view;
+            categoryIcon =  view.findViewById(R.id.category_icon);
+            recordTitle =  view.findViewById(R.id.record_id);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mRecordTitle.getText() + "'";
+            return super.toString() + " '" + recordTitle.getText() + "'";
         }
     }
 }

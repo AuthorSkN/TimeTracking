@@ -46,14 +46,11 @@ public class CategoryFragment extends Fragment {
             Context context = view.getContext();
             RecyclerView recyclerView = (RecyclerView) view;
             recyclerView.setLayoutManager(new LinearLayoutManager(context));
-            final CategoryListViewModel viewModel =
-                    ViewModelProviders.of(this).get(CategoryListViewModel.class);
+            final CategoryListViewModel viewModel = ViewModelProviders.of(this).get(CategoryListViewModel.class);
             viewModel.getCategories().observe(this, categories -> {
                 recyclerView.setAdapter(new CategoriesRecyclerViewAdapter(categories, mListener, getContext(), CategoryFragment.this));
             });
         }
-
-
         return view;
     }
 

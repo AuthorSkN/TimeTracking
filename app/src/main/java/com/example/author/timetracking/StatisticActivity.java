@@ -10,10 +10,10 @@ import com.example.author.timetracking.data.entity.Category;
 import com.example.author.timetracking.data.entity.Record;
 import com.example.author.timetracking.fragment.CategoryFragment;
 import com.example.author.timetracking.fragment.RecordsListFragment;
-import com.example.author.timetracking.fragment.statistic.MostOftenFragment;
-import com.example.author.timetracking.fragment.statistic.MostSumFragment;
-import com.example.author.timetracking.fragment.statistic.PieFragment;
-import com.example.author.timetracking.fragment.statistic.SumByCatFragment;
+import com.example.author.timetracking.fragment.statistic.FrequentListFragment;
+import com.example.author.timetracking.fragment.statistic.GlobalDurationFragment;
+import com.example.author.timetracking.fragment.statistic.DiagramFragment;
+import com.example.author.timetracking.fragment.statistic.DurationByCatFragment;
 
 
 public class StatisticActivity extends AppCompatActivity
@@ -36,10 +36,10 @@ public class StatisticActivity extends AppCompatActivity
 
     private void setupViewPager(ViewPager viewPager) {
         TabsFragmentAdapter adapter = new TabsFragmentAdapter(getSupportFragmentManager());
-        adapter.addFragment(new MostOftenFragment(), getString(R.string.most_often));
-        adapter.addFragment(new MostSumFragment(), getString(R.string.most_sum));
-        adapter.addFragment(new SumByCatFragment(), getString(R.string.sum));
-        adapter.addFragment(new PieFragment(), getString(R.string.pie));
+        adapter.addFragment(new FrequentListFragment(), getString(R.string.most_often));
+        adapter.addFragment(new GlobalDurationFragment(), getString(R.string.most_sum));
+        adapter.addFragment(new DurationByCatFragment(), getString(R.string.sum));
+        adapter.addFragment(new DiagramFragment(), getString(R.string.pie));
         viewPager.setAdapter(adapter);
     }
 
