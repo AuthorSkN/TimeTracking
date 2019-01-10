@@ -67,6 +67,5 @@ public class StartActivity extends AppCompatActivity
 
     @Override
     public void OnRecordsListFragmentInteractionListener(Record item) {
-
     }
 }

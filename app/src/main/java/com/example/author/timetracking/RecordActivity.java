@@ -214,10 +214,10 @@ public class RecordActivity  extends AppCompatActivity {
 
     private void updateView() {
         if (record.getStartTime() != null) {
-            startDateView.setText(dateFormat.format(record.getStartTime().toString()));
+            startDateView.setText(dateFormat.format(record.getStartTime()));
         }
         if (record.getEndTime() != null) {
-            endDateView.setText(dateFormat.format(record.getEndTime().toString()));
+            endDateView.setText(dateFormat.format(record.getEndTime()));
         }
         ((EditText) findViewById(R.id.edit_title)).setText(record.getTitle());
         dataObservable.getPhotosByRecord(record.getRecordId())
