@@ -9,9 +9,9 @@
     <string name="title_activity_main2">Main2Activity</string>
     <string name="title_activity_statistic">StatisticActivity</string>
     <string name="often">Often</string>
-    <string name="sum_in_all">Most Sum</string>
-    <string name="sum">Sum</string>
-    <string name="diagram">Pie</string>
+    <string name="sum_in_all">From all</string>
+    <string name="sum">From select</string>
+    <string name="diagram">Diagram</string>
 
     <string name="section_format">Hello World from section: %1$d</string>
 </resources>

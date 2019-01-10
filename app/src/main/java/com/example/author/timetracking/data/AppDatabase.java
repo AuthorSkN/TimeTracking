@@ -76,8 +76,8 @@ public abstract class AppDatabase extends RoomDatabase {
         return new Category[]{
                 new Category("Cleaning", photoIds[0]),
                 new Category("Dinner", photoIds[1]),
-                new Category("Dream", photoIds[2]),
-                new Category("Rest", photoIds[3]),
+                new Category("Sleep", photoIds[2]),
+                new Category("Vacation", photoIds[3]),
                 new Category("Work", photoIds[4]),
         };
     }
@@ -86,8 +86,8 @@ public abstract class AppDatabase extends RoomDatabase {
         return new Photo[]{
                 new Photo("android.resource://com.example.author.timetracking//" + R.mipmap.clean_category),
                 new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.dinner_category),
-                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.dream_category),
-                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.rest_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.sleep_category),
+                new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.vacation_category),
                 new Photo("android.resource://com.example.author.timetracking/" + R.mipmap.work_category)
         };
     }

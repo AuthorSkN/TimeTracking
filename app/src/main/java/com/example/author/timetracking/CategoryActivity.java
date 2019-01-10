@@ -80,7 +80,6 @@ public class CategoryActivity extends AppCompatActivity {
             }
             photo = photoDAO.findById(category.getPhId());
             updateImage();
-
         }
     }
 

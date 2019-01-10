@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<CategoriesRecyclerViewAdapter.ViewHolder>{
-    public static final String SELECTED_MODEL = "selected model";
+    public static final String CATEGORY_MODEL = "currentCategory";
 
     private List<Category> mValues;
     private final CategoryFragment.OnCategoriesFragmentInteractionListener mListener;
@@ -55,20 +55,20 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
 
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
-        holder.mItem = mValues.get(position);
-        holder.mCategoryTitle.setText(mValues.get(position).getTitle());
+        holder.item = mValues.get(position);
+        holder.categoryTitle.setText(mValues.get(position).getTitle());
         try {
             Photo photo = photoDAO.findById(mValues.get(position).getPhId());
             final Uri imageUri = Uri.parse(photo.getImageUri());
             final InputStream imageStream = owner.getContext().getContentResolver().openInputStream(imageUri);
             final Bitmap selectedImage = BitmapFactory.decodeStream(imageStream);
-            holder.mCategoryIcon.setImageBitmap(selectedImage);
-            holder.mView.setOnClickListener(event -> {
+            holder.categoryIcon.setImageBitmap(selectedImage);
+            holder.view.setOnClickListener(event -> {
                 if (null != mListener) {
                     Intent intent = new Intent(owner.getContext(), CategoryActivity.class);
-                    intent.putExtra(SELECTED_MODEL, mValues.get(position));
+                    intent.putExtra(CATEGORY_MODEL, mValues.get(position));
                     owner.startActivity(intent);
-                    mListener.onCategoriesFragmentInteraction(holder.mItem);
+                    mListener.onCategoriesFragmentInteraction(holder.item);
                 }
             });
         } catch (FileNotFoundException err) {
@@ -82,21 +82,21 @@ public class CategoriesRecyclerViewAdapter extends RecyclerView.Adapter<Categori
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder {
-        public final View mView;
-        public final ImageView mCategoryIcon;
-        public final TextView mCategoryTitle;
-        public Category mItem;
+        public final View view;
+        public final ImageView categoryIcon;
+        public final TextView categoryTitle;
+        public Category item;
 
         public ViewHolder(View view) {
             super(view);
-            mView = view;
-            mCategoryIcon =  view.findViewById(R.id.category_icon);
-            mCategoryTitle = view.findViewById(R.id.category_title);
+            this.view = view;
+            categoryIcon =  view.findViewById(R.id.category_icon);
+            categoryTitle = view.findViewById(R.id.category_title);
         }
 
         @Override
         public String toString() {
-            return super.toString() + " '" + mCategoryTitle.getText() + "'";
+            return super.toString() + " '" + categoryTitle.getText() + "'";
         }
     }
 
