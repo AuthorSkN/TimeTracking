@@ -71,6 +71,7 @@ public class RecordActivity  extends AppCompatActivity {
     private List<Category> allCategories;
     private ArrayList<Photo> addedPhotos;
     private ArrayList<Photo> recentlyAddedPhotos = new ArrayList<>();
+    private boolean isUpdateRecord;
 
     private SimpleDateFormat dateFormat;
 
@@ -140,7 +141,13 @@ public class RecordActivity  extends AppCompatActivity {
         record.setStartTime(start);
         EditText title = findViewById(R.id.edit_title);
         record.setTitle(title.getText().toString());
-        long recId = database.getRecordDAO().insert(record);
+        long recId = 0;
+        if (isUpdateRecord) {
+            database.getRecordDAO().update(record);
+        } else {
+            recId = database.getRecordDAO().insert(record);
+        }
+
         Photo[] photosToUpdate = new Photo[recentlyAddedPhotos.size()];
         Photo[] photosToInsert = new Photo[addedPhotos.size() - recentlyAddedPhotos.size()];
         int indexU = 0;
@@ -205,10 +212,11 @@ public class RecordActivity  extends AppCompatActivity {
         if (getIntent().hasExtra(RECORD_MODEL)) {
             record = (Record) getIntent().getSerializableExtra(RECORD_MODEL);
             getIntent().removeExtra(RECORD_MODEL);
-
+            isUpdateRecord = true;
             updateView();
         } else {
             record = new Record();
+            isUpdateRecord = false;
         }
     }
 
